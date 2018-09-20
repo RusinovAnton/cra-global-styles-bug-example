@@ -1,42 +1,55 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
-import logo from './logo.svg';
-import LogoInline from './logo.inline.svg';
 import styles from './style.scss';
 
+import ReactTable from 'react-table';
+
+const data = [
+  {
+    name: 'Tanner Linsley',
+    age: 26,
+    friend: {
+      name: 'Jason Maurer',
+      age: 23,
+    },
+  },
+  {
+    name: 'John Doe',
+    age: 26,
+    friend: {
+      name: 'Ralph',
+      age: 23,
+    },
+  },
+];
+
+const columns = [
+  {
+    Header: 'Name',
+    accessor: 'name', // String-based value accessors!
+  },
+  {
+    Header: 'Age',
+    accessor: 'age',
+    Cell: props => <span className="number">{props.value}</span>, // Custom cell components!
+  },
+  {
+    id: 'friendName', // Required because our accessor is not a string
+    Header: 'Friend Name',
+    accessor: d => d.friend.name, // Custom value accessors!
+  },
+  {
+    Header: props => <span>Friend Age</span>, // Custom header components!
+    accessor: 'friend.age',
+  },
+];
+
 class App extends Component {
-  state = {
-    count: 0,
-  };
-
-  componentDidMount() {
-    setInterval(this.increment, 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.increment);
-  }
-
-  increment = () => {
-    this.setState(prevState => ({
-      count: prevState.count + 1,
-    }));
-  };
-
   render() {
     return (
       <div className={styles.app}>
-        <header className={styles.appHeader}>
-          <LogoInline fill="#61DAFB" className={styles.appLogo} />
-          <img src={logo} className={styles.appLogo} alt="logo" />
-          <h1 className={styles.appTitle}>
-            Welcome to React | Count: {this.state.count}
-          </h1>
-        </header>
-        <p className={styles.appIntro}>
-          To get started, edit <code>src/components/App/index.js</code> and save
-          to reload.
-        </p>
+        React-table global styles problem:
+        <ReactTable data={data} columns={columns} />
       </div>
     );
   }
